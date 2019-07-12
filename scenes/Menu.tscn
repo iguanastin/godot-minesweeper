@@ -1,6 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/Menu.gd" type="Script" id=1]
+[ext_resource path="res://assets/monofont.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=2]
+size = 46
+font_data = ExtResource( 2 )
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends ItemList
@@ -58,46 +63,55 @@ anchor_bottom = 1.0
 script = ExtResource( 1 )
 game = "res://scenes/Game.tscn"
 
+[node name="TitleLabel" type="Label" parent="."]
+margin_left = 76.0
+margin_top = 46.0
+margin_right = 274.0
+margin_bottom = 93.0
+custom_fonts/font = SubResource( 2 )
+text = "Minesweeper"
+
 [node name="PlayLabel" type="Label" parent="."]
 margin_left = 68.0
-margin_top = 120.0
+margin_top = 150.0
 margin_right = 108.0
-margin_bottom = 134.0
+margin_bottom = 164.0
 text = "Play"
 
 [node name="PlayEasyButton" type="Button" parent="."]
 margin_left = 42.0
-margin_top = 143.0
+margin_top = 173.0
 margin_right = 122.0
-margin_bottom = 163.0
+margin_bottom = 193.0
 text = "Easy"
 
 [node name="PlayMediumButton" type="Button" parent="."]
 margin_left = 42.0
-margin_top = 173.0
+margin_top = 203.0
 margin_right = 122.0
-margin_bottom = 193.0
+margin_bottom = 223.0
 text = "Medium"
 
 [node name="PlayHardButton" type="Button" parent="."]
 margin_left = 42.0
-margin_top = 203.0
+margin_top = 233.0
 margin_right = 122.0
-margin_bottom = 223.0
+margin_bottom = 253.0
 text = "Hard"
 
 [node name="ExitButton" type="Button" parent="."]
 margin_left = 42.0
-margin_top = 383.0
+margin_top = 413.0
 margin_right = 122.0
-margin_bottom = 403.0
+margin_bottom = 433.0
 text = "Exit"
 
 [node name="Leaderboard" type="Control" parent="."]
+editor/display_folded = true
 margin_left = 186.0
-margin_top = 102.0
+margin_top = 132.0
 margin_right = 428.0
-margin_bottom = 423.0
+margin_bottom = 453.0
 
 [node name="ScoreList" type="ItemList" parent="Leaderboard"]
 anchor_right = 1.0
