@@ -1,0 +1,144 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scripts/Menu.gd" type="Script" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends ItemList
+
+
+export(NodePath) onready var easy_button = get_node(easy_button)
+export(NodePath) onready var medium_button = get_node(medium_button)
+export(NodePath) onready var hard_button = get_node(hard_button)
+
+
+func _ready():
+	_show_difficulty(\"easy\")
+
+func _show_difficulty(difficulty):
+	clear()
+	
+	var file = File.new()
+	if file.file_exists(GameSettings.save_file):
+		file.open(GameSettings.save_file, file.READ)
+		var json = JSON.parse(file.get_as_text())
+		file.close()
+		
+		if json.error == OK:
+			json = json.result
+			
+			for score in json[\"leaderboard\"][difficulty]:
+				add_item(str(score) + \"s\")
+		else:
+			print(\"Error reading JSON: \" + GameSettings.save_file)
+	else:
+		print(\"No JSON file found: \" + GameSettings.save_file)
+
+func _on_EasyButton_up():
+	_show_difficulty(\"easy\")
+	easy_button.set_disabled(true)
+	medium_button.set_disabled(false)
+	hard_button.set_disabled(false)
+
+func _on_MediumButton_up():
+	_show_difficulty(\"medium\")
+	easy_button.set_disabled(false)
+	medium_button.set_disabled(true)
+	hard_button.set_disabled(false)
+
+func _on_HardButton_down():
+	_show_difficulty(\"hard\")
+	easy_button.set_disabled(false)
+	medium_button.set_disabled(false)
+	hard_button.set_disabled(true)
+"
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+game = "res://scenes/Game.tscn"
+
+[node name="PlayLabel" type="Label" parent="."]
+margin_left = 68.0
+margin_top = 120.0
+margin_right = 108.0
+margin_bottom = 134.0
+text = "Play"
+
+[node name="PlayEasyButton" type="Button" parent="."]
+margin_left = 42.0
+margin_top = 143.0
+margin_right = 122.0
+margin_bottom = 163.0
+text = "Easy"
+
+[node name="PlayMediumButton" type="Button" parent="."]
+margin_left = 42.0
+margin_top = 173.0
+margin_right = 122.0
+margin_bottom = 193.0
+text = "Medium"
+
+[node name="PlayHardButton" type="Button" parent="."]
+margin_left = 42.0
+margin_top = 203.0
+margin_right = 122.0
+margin_bottom = 223.0
+text = "Hard"
+
+[node name="ExitButton" type="Button" parent="."]
+margin_left = 42.0
+margin_top = 383.0
+margin_right = 122.0
+margin_bottom = 403.0
+text = "Exit"
+
+[node name="Leaderboard" type="Control" parent="."]
+margin_left = 186.0
+margin_top = 102.0
+margin_right = 428.0
+margin_bottom = 423.0
+
+[node name="ScoreList" type="ItemList" parent="Leaderboard"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 49.0
+script = SubResource( 1 )
+easy_button = NodePath("../EasyButton")
+medium_button = NodePath("../MediumButton")
+hard_button = NodePath("../HardButton")
+
+[node name="EasyButton" type="Button" parent="Leaderboard"]
+margin_left = 5.0
+margin_top = 22.0
+margin_right = 45.0
+margin_bottom = 42.0
+disabled = true
+text = "Easy"
+
+[node name="MediumButton" type="Button" parent="Leaderboard"]
+margin_left = 86.0
+margin_top = 22.0
+margin_right = 151.0
+margin_bottom = 42.0
+text = "Medium"
+
+[node name="HardButton" type="Button" parent="Leaderboard"]
+anchor_right = 1.0
+margin_left = 195.0
+margin_top = 22.0
+margin_right = -5.0
+margin_bottom = 42.0
+text = "Hard"
+
+[node name="LeaderboardLabel" type="Label" parent="Leaderboard"]
+margin_right = 83.0
+margin_bottom = 14.0
+text = "Leaderboard:"
+[connection signal="button_up" from="PlayEasyButton" to="." method="_on_Easy_button_up"]
+[connection signal="button_up" from="PlayMediumButton" to="." method="_on_Medium_button_up"]
+[connection signal="button_up" from="PlayHardButton" to="." method="_on_Hard_button_up"]
+[connection signal="button_up" from="ExitButton" to="." method="_on_Exit_button_up"]
+[connection signal="button_up" from="Leaderboard/EasyButton" to="Leaderboard/ScoreList" method="_on_EasyButton_up"]
+[connection signal="button_up" from="Leaderboard/MediumButton" to="Leaderboard/ScoreList" method="_on_MediumButton_up"]
+[connection signal="button_down" from="Leaderboard/HardButton" to="Leaderboard/ScoreList" method="_on_HardButton_down"]
