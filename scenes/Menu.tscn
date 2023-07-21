@@ -3,11 +3,11 @@
 [ext_resource path="res://scripts/Menu.gd" type="Script" id=1]
 [ext_resource path="res://assets/monofont.ttf" type="DynamicFontData" id=2]
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=1]
 size = 46
 font_data = ExtResource( 2 )
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=2]
 script/source = "extends ItemList
 
 
@@ -68,7 +68,7 @@ margin_left = 76.0
 margin_top = 46.0
 margin_right = 274.0
 margin_bottom = 93.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 1 )
 text = "Minesweeper"
 
 [node name="PlayLabel" type="Label" parent="."]
@@ -117,7 +117,7 @@ margin_bottom = 453.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 49.0
-script = SubResource( 1 )
+script = SubResource( 2 )
 easy_button = NodePath("../EasyButton")
 medium_button = NodePath("../MediumButton")
 hard_button = NodePath("../HardButton")
